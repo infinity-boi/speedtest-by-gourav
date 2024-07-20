@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internet Speed Test</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            text-align: center;
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .attributes{
+            text-align: left;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        #test-speed {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            outline: none;
+        }
+        #test-speed:hover {
+            background-color: #0056b3;
+        }
+        #results {
+            margin-top: 20px;
+        }
+        #results p {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Internet Speed Test</h1>
+        <h2>by Gourav</h2>
+        <button id="test-speed"><i class="fas fa-wifi"></i></button>
+        <div id="results" class="attributes">
+            <p>Download Speed: <span id="download-speed">N/A</span> Mbps</p>
+            <p>Upload Speed: <span id="upload-speed">N/A</span> Mbps</p>
+            <p>Ping: <span id="ping">N/A</span> ms</p>
+        </div>
+    </div>
+{#    <script>#}
+{#        $(document).ready(function() {#}
+{#            $('#test-speed').click(function() {#}
+{#                $('#results span').text('Testing...');#}
+{#                $.getJSON('/speedtest', function(data) {#}
+{#                    $('#download-speed').text(data.download_speed.toFixed(2));#}
+{#                    $('#upload-speed').text(data.upload_speed.toFixed(2));#}
+{#                    $('#ping').text(data.ping);#}
+{#                });#}
+{#            });#}
+{#        });#}
+{#    </script>#}
+    <script>
+        $(document).ready(function() {
+            $('#test-speed').click(function() {
+                $('#results span').text('Testing...');
+                var source = new EventSource('/speedtest');
+                source.onmessage = function(event) {
+                    var data = JSON.parse(event.data);
+                    if (data.type === 'ping') {
+                        $('#ping').text(data.value);
+                    } else if (data.type === 'download') {
+                        $('#download-speed').text(data.value.toFixed(2));
+                    } else if (data.type === 'upload') {
+                        $('#upload-speed').text(data.value.toFixed(2));
+                        source.close();
+                    }
+                };
+            });
+        });
+    </script>
+</body>
+</html>
