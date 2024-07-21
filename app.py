@@ -28,19 +28,6 @@ def index():
     return render_template('index.html')
 
 
-# @app.route('/speedtest')
-# def run_speedtest():
-#     st = speedtest.Speedtest()
-#     st.download()
-#     st.upload()
-#     results = st.results.dict()
-#     return jsonify({
-#         'download_speed': results['download'] / 1_000_000,  # Convert to Mbps
-#         'upload_speed': results['upload'] / 1_000_000,      # Convert to Mbps
-#         'ping': results['ping']
-#     })
-
-
 
 @app.route('/speedtest')
 def run_speedtest():

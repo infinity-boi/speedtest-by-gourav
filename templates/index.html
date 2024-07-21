@@ -64,18 +64,6 @@
             <p>Ping: <span id="ping">N/A</span> ms</p>
         </div>
     </div>
-{#    <script>#}
-{#        $(document).ready(function() {#}
-{#            $('#test-speed').click(function() {#}
-{#                $('#results span').text('Testing...');#}
-{#                $.getJSON('/speedtest', function(data) {#}
-{#                    $('#download-speed').text(data.download_speed.toFixed(2));#}
-{#                    $('#upload-speed').text(data.upload_speed.toFixed(2));#}
-{#                    $('#ping').text(data.ping);#}
-{#                });#}
-{#            });#}
-{#        });#}
-{#    </script>#}
     <script>
         $(document).ready(function() {
             $('#test-speed').click(function() {
